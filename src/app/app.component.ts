@@ -10,11 +10,27 @@ import { Transport } from './core/models/Transport';
 })
 export class AppComponent {
   title = 'PruebaTecnica';
-  textOutput?: Transport;
+  journey: Journey = new Journey();
   textResult?: string;
+  totalPrice?: string;
+  flightPath: Flight[] | undefined = new Array<Flight>;
 
   convertJourney(outputData: Journey): void{
-    this.textResult = JSON.stringify(outputData, null, 2);
+    this.journey = outputData;
+    this.journey.price = this.calculatePrice(this.journey.flights!);
+    this.textResult = JSON.stringify(this.journey, null, 2);
+  }
+
+  calculatePrice(flights: Flight[]): string{
+    let totalPrice = 0;
+    this.flightPath = flights;
+
+    if(this.flightPath !== undefined){
+      for(let flight of this.flightPath!){
+        totalPrice += parseInt(flight.price!);
+      }
+    }
+    return totalPrice.toString();
   }
 
 }

@@ -1,6 +1,6 @@
 <div class="container prueba" role="main">
 
     <app-user-form-input (emitOutput)="convertJourney($event)"></app-user-form-input>
-    <span>{{ textOutput }} app is running!</span>
+    <app-price-view [price]="this.journey.price"></app-price-view>
     <app-path-text-output [textInput]="textResult"></app-path-text-output>
 </div>

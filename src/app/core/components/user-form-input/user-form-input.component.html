@@ -3,14 +3,21 @@
 
 <form [formGroup]="registerForm" (ngSubmit)="createSkyway()" class="">
 	<label>Datos de Petición</label>
-	<div class="inputs centrado">
-		<input required formControlName="origen" (input)="checkInput()"
-			name="origen" placeholder="Origen" type="text" >
-		<input required formControlName="destino" (input)="checkInput()"
-			name="destino" placeholder="Destino" >
+
+	<div class="row my-2">
+		<div class="col-6">
+			<input required formControlName="origen" (input)="checkInput()"
+				name="origen" placeholder="Origen" type="text" class="form-control" >
+		</div>
+		<div class="col-6">
+			<input required formControlName="destino" (input)="checkInput()"
+				name="destino" placeholder="Destino" class="form-control" >
+		</div>
 	</div>
+
+
 	<div class="centrado">
-		<button class="" >ENVIAR PETICIÓN</button>
+		<button class="btn btn-primary" >ENVIAR PETICIÓN</button>
 	</div>
 	<div *ngIf="invalid" class="alert alert-danger">
 		Ambos campos deben ser diferentes entre si.

@@ -68,15 +68,15 @@ export class UserFormInputComponent {
     this.requestData = this.registerForm.value;
     let skyway = PathFinder.findPath(0, this.flights, this.requestData.origen, this.requestData.destino);
     console.log(skyway);
-    this.emitOutput.emit(this.createJourney());
+    this.emitOutput.emit(this.createJourney(skyway));
   }
 
-  createJourney(): Journey{
+  createJourney(skyway: Flight[]): Journey{
     return {
       origin: this.f['origen'].value,
       destination: this.f['destino'].value,
       price: "",
-      flights: this.flights
+      flights: skyway
     }
   }
 
