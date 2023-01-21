@@ -1,8 +1,8 @@
 import { Transport } from "./Transport";
 
 export class Flight {
-	private arrivalStation: string | undefined;
-	private departureStation: string | undefined;
-	private price: string | undefined;
-	private transport: Transport[] | undefined;
+	public arrivalStation: string | undefined;
+	public departureStation: string | undefined;
+	public price: string | undefined;
+	public transport: Transport[] | undefined;
 }

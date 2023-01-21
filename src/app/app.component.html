@@ -1,5 +1,6 @@
 <div class="container prueba" role="main">
 
-    <span>{{ title }} app is running!</span>
-    <app-user-form-input></app-user-form-input>
+    <app-user-form-input (emitOutput)="convertJourney($event)"></app-user-form-input>
+    <span>{{ textOutput }} app is running!</span>
+    <app-path-text-output [textInput]="textResult"></app-path-text-output>
 </div>

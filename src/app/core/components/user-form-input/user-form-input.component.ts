@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RequestsControllerService } from '../../services/RequestsController.service';
 import { FlightDTO } from '../../models/FlightDTO';
 import { NgModel, ReactiveFormsModule, FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { PathFinder } from '../../utils/PathFinder';
+import { Flight } from '../../models/Flight';
+import { Transport } from '../../models/Transport';
+import { Journey } from '../../models/Journey';
+
 
 @Component({
   selector: 'app-user-form-input',
@@ -10,9 +15,14 @@ import { NgModel, ReactiveFormsModule, FormBuilder, FormGroup, Validators  } fro
 })
 export class UserFormInputComponent {
 
-  private flights: FlightDTO[] = new Array<FlightDTO>;
+  private flights: Flight[] = new Array<Flight>;
   public registerForm!: FormGroup;
   public invalid = false;
+
+  public textOutput: string = "";
+
+  @Output() 
+  public emitOutput = new EventEmitter<Journey>();
 
   public requestData = {
     origen: "MZL",
@@ -36,7 +46,19 @@ export class UserFormInputComponent {
   getFlights(){
     this.flightsClient.getFlights().subscribe(
       (flights: FlightDTO[]) => {
-        this.flights = flights;
+        this.flights = flights.map((x: FlightDTO): Flight => {
+          return {
+            arrivalStation: x.arrivalStation,
+            departureStation: x.departureStation,
+            price: x.price,
+            transport: [
+              {
+                flightCarrier: x.flightCarrier,
+                flightNumber: x.flightNumber
+              }
+            ]
+          }
+        });
         console.log(this.flights);
       }
     );
@@ -44,8 +66,18 @@ export class UserFormInputComponent {
 
   createSkyway(){
     this.requestData = this.registerForm.value;
-    let skyway = this.findPath(0, this.flights, this.requestData.origen, this.requestData.destino);
+    let skyway = PathFinder.findPath(0, this.flights, this.requestData.origen, this.requestData.destino);
     console.log(skyway);
+    this.emitOutput.emit(this.createJourney());
+  }
+
+  createJourney(): Journey{
+    return {
+      origin: this.f['origen'].value,
+      destination: this.f['destino'].value,
+      price: "",
+      flights: this.flights
+    }
   }
 
   checkInputEmpty(element: any){
@@ -56,29 +88,6 @@ export class UserFormInputComponent {
     this.f['origen'].setValue(this.f['origen'].value.toUpperCase());
     this.f['destino'].setValue(this.f['destino'].value.toUpperCase());
     this.invalid = this.f['origen'].value === this.f['destino'].value;
-  }
-
-  findPath(countFlight: number,flights: FlightDTO[],nameOrigin: string | undefined, nameDestination: string): FlightDTO[]{
-    let path: FlightDTO[] = new Array<FlightDTO>;
-    countFlight++
-    if(countFlight < flights.length){
-      for(let flight of flights){
-        console.log(flight);
-        if(flight.departureStation === nameOrigin && flight.arrivalStation === nameDestination){
-          path.push(flight);
-          console.log("--");
-          return path;
-        }else if(flight.departureStation === nameOrigin && flight.arrivalStation !== nameDestination){
-          path = [...this.findPath(countFlight++, flights, flight.arrivalStation, nameDestination)];
-          if(path.length > 0){
-            path.push(flight);
-          }
-          console.log("++");
-          return path;
-        }
-      }
-    }
-    return [];
   }
 
 }

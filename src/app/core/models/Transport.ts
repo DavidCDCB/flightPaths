@@ -1,4 +1,4 @@
 export class Transport {
-	private flightCarrier: string | undefined;
-	private flightNumber: string | undefined;
+	public flightCarrier: string | undefined;
+	public flightNumber: string | undefined;
 }
