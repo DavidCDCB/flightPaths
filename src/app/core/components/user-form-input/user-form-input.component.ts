@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RequestsControllerService } from '../../services/RequestsController.service';
+import { FlightDTO } from '../../models/FlightDTO';
 
 @Component({
   selector: 'app-user-form-input',
@@ -8,12 +9,13 @@ import { RequestsControllerService } from '../../services/RequestsController.ser
 })
 export class UserFormInputComponent {
 
-  constructor(private flightsClient: RequestsControllerService){}
+  constructor(private flightsClient: RequestsControllerService<FlightDTO>){}
 
   getFlights(){
+    
     this.flightsClient.getFlights().subscribe(
-      data => {
-        console.log(data);
+      (flights: FlightDTO[]) => {
+        console.log(flights);
       }
     );
   }
