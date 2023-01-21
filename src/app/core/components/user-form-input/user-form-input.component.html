@@ -1,6 +1,3 @@
-<p>user-form-input works! {{requestData | json}}</p>
-
-
 <form [formGroup]="registerForm" (ngSubmit)="createSkyway()" class="">
 	<label>Datos de Petición</label>
 
@@ -15,21 +12,22 @@
 		</div>
 	</div>
 
-
-	<div class="centrado">
-		<button class="btn btn-primary" >ENVIAR PETICIÓN</button>
+	<div *ngIf="checkInvalidInput(f['origen'])" class="alert alert-danger">
+		El origen debe tener tres letras.
 	</div>
-	<div *ngIf="invalid" class="alert alert-danger">
+
+	<div *ngIf="checkInvalidInput(f['destino'])" class="alert alert-danger">
+		El destino debe tener tres letras.
+	</div>
+
+	<div *ngIf="equals" class="alert alert-danger">
 		Ambos campos deben ser diferentes entre si.
 	</div>
 
-	<div *ngIf="checkInputEmpty(f['origen'])" class="alert alert-danger">
-		El origen es requerido
+	<div class="centrado">
+		<button [disabled]="!validInputs" class="btn btn-primary" >ENVIAR PETICIÓN</button>
 	</div>
 
-	<div *ngIf="checkInputEmpty(f['destino'])" class="alert alert-danger">
-		El destino es requerido
-	</div>
 
 	{{this.registerForm.value | json}}
 </form>

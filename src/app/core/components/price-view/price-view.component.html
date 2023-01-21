@@ -1,3 +1,15 @@
-<p>
-  Precio actual de la ruta: {{price != undefined ? price : '0'}}
-</p>
+<div class="row my-3">
+  <div class="col">
+    <h3>Precio actual de la ruta: {{(price != undefined ? price : '0') | currency:typeCurrency}}</h3>
+  </div>
+  <div class="col">
+    <select class="form-select" (change)="convertCurrency()" [(ngModel)]="typeCurrency">
+      <option default>USD</option>
+      <option>COP</option>
+      <option>EUR</option>
+      <option>Cleveland</option>
+    </select>
+  </div>
+</div>
+
+

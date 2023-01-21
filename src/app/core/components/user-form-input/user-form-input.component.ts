@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RequestsControllerService } from '../../services/RequestsController.service';
+import { CurrencyConverterService } from '../../services/CurrencyConverter.service';
 import { FlightDTO } from '../../models/FlightDTO';
 import { NgModel, ReactiveFormsModule, FormBuilder, FormGroup, Validators  } from '@angular/forms';
 import { PathFinder } from '../../utils/PathFinder';
@@ -17,8 +18,8 @@ export class UserFormInputComponent {
 
   private flights: Flight[] = new Array<Flight>;
   public registerForm!: FormGroup;
-  public invalid = false;
-
+  public equals = false;
+  public validInputs = false;
   public textOutput: string = "";
 
   @Output() 
@@ -29,7 +30,10 @@ export class UserFormInputComponent {
     destino: "BCN"
   };
 
-  constructor(private flightsClient: RequestsControllerService<FlightDTO>, private formBuilder: FormBuilder){}
+  constructor(
+    private flightsClient: RequestsControllerService<FlightDTO>, 
+    private formBuilder: FormBuilder
+  ){}
 
   ngOnInit(){
     console.log("iniciado");
@@ -80,14 +84,19 @@ export class UserFormInputComponent {
     }
   }
 
-  checkInputEmpty(element: any){
-    return element.errors && !element.pristine;
+  changeToUpperCase(){
+    this.f['origen'].setValue(this.f['origen'].value.toUpperCase());
+    this.f['destino'].setValue(this.f['destino'].value.toUpperCase());
+  }
+
+  checkInvalidInput(element: any){
+    return (element.errors && !element.pristine);
   }
   
   checkInput(){
-    this.f['origen'].setValue(this.f['origen'].value.toUpperCase());
-    this.f['destino'].setValue(this.f['destino'].value.toUpperCase());
-    this.invalid = this.f['origen'].value === this.f['destino'].value;
+    this.changeToUpperCase();
+    this.equals = this.f['origen'].value === this.f['destino'].value;
+    this.validInputs = !(this.equals || this.f['origen'].errors || this.f['destino'].errors );
   }
 
 }
