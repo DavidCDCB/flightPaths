@@ -13,7 +13,5 @@ export class PathTableComponent implements OnInit {
   @Input()
   listOgFlights?: Flight[] = new Array<Flight>;
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

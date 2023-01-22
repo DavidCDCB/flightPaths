@@ -1,13 +1,15 @@
 <form [formGroup]="registerForm" (ngSubmit)="createSkyway()" class="">
-	<label>Datos de Petición</label>
+	<div class="d-flex justify-content-center">
+		<h1 class="text-white">🛫Rutas de vuelo🛬</h1>
+	</div>
 
 	<div class="row my-2">
 		<div class="col-6">
-			<input required formControlName="origen" (input)="checkInput()"
+			<input required formControlName="origen" (input)="checkInputs()"
 				name="origen" placeholder="Origen" type="text" class="form-control" >
 		</div>
 		<div class="col-6">
-			<input required formControlName="destino" (input)="checkInput()"
+			<input required formControlName="destino" (input)="checkInputs()"
 				name="destino" placeholder="Destino" class="form-control" >
 		</div>
 	</div>
@@ -25,6 +27,10 @@
 	</div>
 
 	<div class="centrado">
-		<button [disabled]="validInputs" class="btn btn-primary" >Generar ruta de vuelo</button>
+		<button [disabled]="validInputs" class="btn btn-primary mt-2" >
+			<span class="material-symbols-outlined">
+				flight_takeoff
+				</span>
+			Generar ruta de vuelo</button>
 	</div>
 </form>

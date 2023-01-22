@@ -9,6 +9,7 @@ import { UserFormInputComponent } from './core/components/user-form-input/user-f
 import { PathTextOutputComponent } from "./core/components/path-text-output/path-text-output.component";
 import { PriceViewComponent } from './core/components/price-view/price-view.component';
 import { PathTableComponent } from './core/components/path-table/path-table.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { PathTableComponent } from './core/components/path-table/path-table.comp
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule
     ]
 })
 export class AppModule { }

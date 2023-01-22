@@ -1,4 +1,14 @@
-.prueba{
-	background-color: aqua;
-	padding: 0.8rem;
+.opaco {
+	backdrop-filter: blur(10px);
+	border-radius: 0.7rem;
+	opacity: 1;
+}
+
+.hide{
+	opacity: 0;
+}
+
+.show{
+	opacity: 1;
+	transition: opacity 500ms linear;
 }

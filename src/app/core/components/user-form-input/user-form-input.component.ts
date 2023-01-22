@@ -1,14 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RequestsControllerService } from '../../services/RequestsController.service';
-import { CurrencyConverterService } from '../../services/CurrencyConverter.service';
 import { FlightDTO } from '../../models/FlightDTO';
-import { NgModel, ReactiveFormsModule, FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 import { PathFinder } from '../../utils/PathFinder';
 import { Flight } from '../../models/Flight';
-import { Transport } from '../../models/Transport';
 import { Journey } from '../../models/Journey';
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-user-form-input',
@@ -16,7 +13,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./user-form-input.component.css']
 })
 export class UserFormInputComponent {
-
   private flights: Flight[] = new Array<Flight>;
   public registerForm!: FormGroup;
   public equals = false;
@@ -27,17 +23,16 @@ export class UserFormInputComponent {
   public emitOutput = new EventEmitter<Journey>();
 
   public requestData = {
-    origen: "MZL",
-    destino: "BCN"
+    origen: "",
+    destino: ""
   };
 
   constructor(
-    private flightsClient: RequestsControllerService<FlightDTO>, 
+    private flightsHTTPClient: RequestsControllerService<FlightDTO>, 
     private formBuilder: FormBuilder
   ){}
 
   ngOnInit(){
-    console.log("iniciado");
     this.getFlights();
 
     this.registerForm = this.formBuilder.group({
@@ -49,24 +44,26 @@ export class UserFormInputComponent {
   get f() { return this.registerForm.controls; }
 
   getFlights(){
-    this.flightsClient.getFlights().subscribe(
+    this.flightsHTTPClient.getFlights().subscribe(
       (flights: FlightDTO[]) => {
-        this.flights = flights.map((x: FlightDTO): Flight => {
-          return {
-            arrivalStation: x.arrivalStation,
-            departureStation: x.departureStation,
-            price: x.price,
-            transport: 
-              {
-                flightCarrier: x.flightCarrier,
-                flightNumber: x.flightNumber
-              }
-            
-          }
-        });
+        this.flights = this.modelFlightOfDTO(flights);
         console.log(this.flights);
       }
     );
+  }
+
+  modelFlightOfDTO(flights: FlightDTO[]){
+    return flights.map((x: FlightDTO): Flight => {
+      return {
+        arrivalStation: x.arrivalStation,
+        departureStation: x.departureStation,
+        price: x.price,
+        transport: {
+          flightCarrier: x.flightCarrier,
+          flightNumber: x.flightNumber
+        }
+      }
+    });
   }
 
   showPopUpError(){
@@ -79,7 +76,6 @@ export class UserFormInputComponent {
 
   createSkyway(){
     this.requestData = this.registerForm.value;
-    //let skyway = PathFinder.findPath(0, this.flights, this.requestData.origen, this.requestData.destino);
     let skyway = PathFinder.findBestPath(this.flights, this.requestData.origen, this.requestData.destino);
     console.log(skyway);
     if(skyway.length){
@@ -98,6 +94,12 @@ export class UserFormInputComponent {
     }
   }
 
+  checkInputs(){
+    this.changeToUpperCase();
+    this.equals = this.f['origen'].value === this.f['destino'].value;
+    this.validInputs = !(this.equals || this.f['origen'].errors || this.f['destino'].errors );
+  }
+
   changeToUpperCase(){
     this.f['origen'].setValue(this.f['origen'].value.toUpperCase());
     this.f['destino'].setValue(this.f['destino'].value.toUpperCase());
@@ -105,12 +107,6 @@ export class UserFormInputComponent {
 
   checkInvalidInput(element: any){
     return (element.errors && !element.pristine);
-  }
-  
-  checkInput(){
-    this.changeToUpperCase();
-    this.equals = this.f['origen'].value === this.f['destino'].value;
-    this.validInputs = !(this.equals || this.f['origen'].errors || this.f['destino'].errors );
   }
 
 }

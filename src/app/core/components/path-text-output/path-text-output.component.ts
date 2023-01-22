@@ -12,7 +12,5 @@ export class PathTextOutputComponent implements OnInit {
   @Input()
   textInput?: string;
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

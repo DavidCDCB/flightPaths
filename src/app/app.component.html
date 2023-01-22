@@ -1,8 +1,8 @@
-<div class="container mt-2 prueba" role="main">
+<div class="container mt-2" role="main">
 
-    <app-user-form-input (emitOutput)="convertJourney($event)"></app-user-form-input>
+    <app-user-form-input (emitOutput)="completeJourney($event)"></app-user-form-input>
 
-    <div *ngIf="flightPath!.length">
+    <div class="opaco hide" [ngClass]="{'show':flightPath!.length}">
         <app-price-view [price]="this.journey.price"></app-price-view>
         <app-path-table [listOgFlights]="flightPath"></app-path-table>
         <app-path-text-output [textInput]="textResult"></app-path-text-output>

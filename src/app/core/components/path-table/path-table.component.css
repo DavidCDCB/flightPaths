@@ -1,9 +1,13 @@
 .tabla{
 	overflow-y: auto;
-	height: 200px;
+	max-height: 200px;
 }
 
 .header{
 	position:sticky;
 	top: 0;
+}
+
+tbody{
+	background-color: white;
 }

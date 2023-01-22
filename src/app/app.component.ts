@@ -1,30 +1,32 @@
 import { Component } from '@angular/core';
 import { Flight } from './core/models/Flight';
 import { Journey } from './core/models/Journey';
-import { Transport } from './core/models/Transport';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'PruebaTecnica';
-  public journey: Journey = new Journey();
   public textResult?: string;
-  public flightPath: Flight[] | undefined = new Array<Flight>;
+  public journey: Journey = new Journey();
+  public flightPath?: Flight[] = new Array<Flight>;
 
-  convertJourney(outputData: Journey): void{
+  completeJourney(outputData: Journey): void{
     this.journey = outputData;
-    this.journey.price = this.calculatePrice(this.journey.flights!);
-    this.textResult = JSON.stringify(this.journey, null, 2);
+    this.journey.price = this.calculateTotalPrice(this.journey.flights!);
+
+    const objJourney = {
+      Journey:this.journey
+    }
+    this.textResult = JSON.stringify(objJourney, null, 4);
   }
 
-  calculatePrice(flights: Flight[]): string{
+  calculateTotalPrice(flights: Flight[]): string{
     let totalPrice = 0;
     this.flightPath = flights;
 
-    if(this.flightPath !== undefined){
+    if(this.flightPath){
       for(let flight of this.flightPath!){
         totalPrice += parseInt(flight.price!);
       }
