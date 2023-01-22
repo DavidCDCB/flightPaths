@@ -31,6 +31,10 @@ export class PriceViewComponent implements OnInit {
     return this.price;
   }
 
+
+  /**
+   * Por medio de una petición sincronica a un servicio externo se realiza el cambio de moneda
+   */
   async convertCurrency(){
     console.log(this.typeCurrency);
     console.log(this.oldTypeCurrency);

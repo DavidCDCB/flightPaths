@@ -3,8 +3,16 @@ import { Flight } from "../models/Flight";
 export class PathFinder {
 	public static allPaths: string[];
 	public static currentPath: string[];
-	public static visitados: string[];
+	public static visited: string[];
 
+	/**
+	 * Proceso encargado de hallar la mejor de las rutas encontradas de vuelo de acuerdo 
+	 * a su correcto origen, destino y concordancia.
+	 * @param {Flight[]} flights : Listado de todos los vuelos disponibles por parte del servicio API
+	 * @param {string} nameOrigin : Nombre del origen especificado
+	 * @param {string} nameDestination : Nombre del destino usado para hallar las rutas validas
+	 * @returns {Flight[]} : Lista de la ruta representada por un listado de objetos de tipo Flight
+	 */
 	static findBestPath(flights: Flight[],nameOrigin: string, nameDestination: string): Flight[] {
 		let completePath: string = "";
 		let origin = "";
@@ -12,9 +20,9 @@ export class PathFinder {
 
 		this.allPaths = new Array<string>;
 		this.currentPath = new Array<string>;
-		this.visitados = new Array<string>;
+		this.visited = new Array<string>;
 		
-		this.visitados.push(nameOrigin);
+		this.visited.push(nameOrigin);
 		this.findPaths(0, flights, nameOrigin, nameDestination);
 
 		for(let p of this.allPaths){
@@ -38,6 +46,15 @@ export class PathFinder {
 		return (fixPath.length) ? this.collectFlights(flights, fixPath.reverse()) : [];
 	}
 
+	/**
+	 * Proceso recursivo que usa estructuras de datos globales para recorrer el grafo de rutas
+	 * de vuelos y de esta forma encontrar todas las rutas posibles partiendo de un origen a un
+	 * destino determinado usando cadenas string para representar las conexiones.
+	 * @param {number} countFlight : Conteo de vuelos encontrados por cada ruta
+	 * @param {Flight[]} flights : : Listado de todos los vuelos disponibles por parte del servicio API
+	 * @param {string} nameOrigin : Nombre del origen especificado
+	 * @param {string} nameDestination : Nombre del destino usado para hallar las rutas validas
+	 */
 	static findPaths(countFlight: number,flights: Flight[],nameOrigin: string | undefined, nameDestination: string) {
 		if(countFlight < flights.length && this.currentPath.length < flights.length){
       for(let flight of flights){
@@ -57,6 +74,13 @@ export class PathFinder {
 		}
 	}
 
+	/**
+	 * Recolecta todos los objetos de tipo Flight de acuerdo la lista de conexiones que indica 
+	 * la ruta encontrada
+	 * @param {Flight[]} flights : Listado de todos los vuelos disponibles por parte del servicio API
+	 * @param {string[]} fixPath : Listado de conexiones válidas
+   * @returns {Flight[]} : Lista de la ruta representada por un listado de objetos de tipo Flight
+	 */
 	static collectFlights(flights: Flight[], fixPath: string[] ): Flight[]{
 		let pathOfFligths: Flight[] = new Array<Flight>;
 		for(let p of fixPath){
@@ -67,13 +91,22 @@ export class PathFinder {
 		return pathOfFligths;
 	}
 
-	static checkFlight(nameOrigin: string | undefined,flight: Flight ){
-		if(!this.currentPath.includes(`${nameOrigin}->${flight.arrivalStation}`) && !this.visitados.includes(flight.arrivalStation!)){
+	/**
+	 * Verifica la validez del vuelo encontrado con el fin de evitar los ciclos infinitos en el
+	 * proceso recursivo
+	 * @param {string} nameOrigin : Nombre del origen especificado
+	 * @param {Flight} flight : Vuelo determido al que se le verifica si el destino ya fue visitado
+	 */
+	static checkFlight(nameOrigin: string | undefined, flight: Flight ){
+		if(!this.currentPath.includes(`${nameOrigin}->${flight.arrivalStation}`) && !this.visited.includes(flight.arrivalStation!)){
 			this.currentPath.push(`${nameOrigin}->${flight.arrivalStation}`);
 		}
-		this.visitados.push(flight.arrivalStation!);
+		this.visited.push(flight.arrivalStation!);
 	}
 
+	/**
+	 * Proceso de busqueda recursiva que solo aplica para grafos sin ciclos y con rutas únicas
+	 */
 	static simpleFindPath(countFlight: number,flights: Flight[],nameOrigin: string | undefined, nameDestination: string): Flight[]{
     let path: Flight[] = new Array<Flight>;
     if(countFlight < flights.length){

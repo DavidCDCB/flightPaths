@@ -1,6 +1,7 @@
 .tabla{
 	overflow-y: auto;
 	max-height: 200px;
+	border-radius: 5px;
 }
 
 .header{
