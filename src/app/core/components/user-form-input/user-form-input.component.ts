@@ -41,7 +41,7 @@ export class UserFormInputComponent {
 
     this.registerForm = this.formBuilder.group({
         origen: ['MZL', [Validators.required, Validators.pattern("[A-Z]{3}")]],
-        destino: ['BCN', [Validators.required, Validators.pattern("[A-Z]{3}")]],
+        destino: ['MEX', [Validators.required, Validators.pattern("[A-Z]{3}")]],
     });
   }
 
@@ -70,7 +70,8 @@ export class UserFormInputComponent {
 
   createSkyway(){
     this.requestData = this.registerForm.value;
-    let skyway = PathFinder.findPath(0, this.flights, this.requestData.origen, this.requestData.destino);
+    //let skyway = PathFinder.findPath(0, this.flights, this.requestData.origen, this.requestData.destino);
+    let skyway = PathFinder.findBestPath(this.flights, this.requestData.origen, this.requestData.destino);
     console.log(skyway);
     this.emitOutput.emit(this.createJourney(skyway));
   }
