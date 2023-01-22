@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserFormInputComponent } from './user-form-input.component';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 
 describe('UserFormInputComponent', () => {
   let component: UserFormInputComponent;
@@ -8,7 +10,16 @@ describe('UserFormInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserFormInputComponent ]
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+      ],
+      declarations: [ UserFormInputComponent ],
+      providers: [
+        FormBuilder,
+        FormGroup,
+        Validators
+      ]
     })
     .compileComponents();
 
@@ -17,7 +28,8 @@ describe('UserFormInputComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should', () => {
+
+    expect(component.validInputs).toBeFalse();
   });
 });

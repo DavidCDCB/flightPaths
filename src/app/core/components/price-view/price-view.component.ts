@@ -8,8 +8,9 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./price-view.component.css']
 })
 export class PriceViewComponent implements OnInit {
-  typeCurrency: string = "USD";
-  oldTypeCurrency: string = "USD";
+  public typeCurrency: string = "USD";
+  public oldTypeCurrency: string = "USD";
+  public converType: boolean = false;
 
   constructor(private currencyConverter: CurrencyConverterService) { }
 
@@ -33,11 +34,12 @@ export class PriceViewComponent implements OnInit {
   async convertCurrency(){
     console.log(this.typeCurrency);
     console.log(this.oldTypeCurrency);
-
+    this.converType = true;
     const categories$ = this.currencyConverter.convertCurrency(this.oldTypeCurrency, this.typeCurrency);
     let valuePrice = await lastValueFrom(categories$);
     this.price = (parseFloat(valuePrice) * parseFloat(this.price!)).toString();
     this.oldTypeCurrency = this.typeCurrency;
+    this.converType = false;
   }
 
 }

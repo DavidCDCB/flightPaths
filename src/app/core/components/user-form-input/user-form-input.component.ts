@@ -14,18 +14,17 @@ import Swal from 'sweetalert2';
 })
 export class UserFormInputComponent {
   private flights: Flight[] = new Array<Flight>;
+  private sites?: (string | undefined)[] = new Array<string>;
   public registerForm!: FormGroup;
   public equals = false;
   public validInputs = false;
-  public textOutput: string = "";
-  private sites?: (string | undefined)[] = new Array<string>;
 
   @Output() 
   public emitOutput = new EventEmitter<Journey>();
 
   public requestData = {
-    origen: "",
-    destino: ""
+    origen: "MEX",
+    destino: "BCN"
   };
 
   constructor(
@@ -37,8 +36,8 @@ export class UserFormInputComponent {
     this.getFlights();
 
     this.registerForm = this.formBuilder.group({
-        origen: ['MEX', [Validators.required, Validators.pattern("[A-Z]{3}")]],
-        destino: ['BCN', [Validators.required, Validators.pattern("[A-Z]{3}")]],
+        origen: ['', [Validators.required, Validators.pattern("[A-Z]{3}")]],
+        destino: ['', [Validators.required, Validators.pattern("[A-Z]{3}")]],
     });
   }
 
@@ -53,6 +52,10 @@ export class UserFormInputComponent {
         console.log(this.sites);
       }
     );
+  }
+
+  existFlights(): boolean{
+    return this.flights.length > 1;
   }
 
   modelFlightOfDTO(flights: FlightDTO[]){

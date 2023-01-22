@@ -1,6 +1,7 @@
 <div class="row my-3">
   <div class="col">
-    <h3 class="text-white">Precio total de la ruta: {{
+    <h3 *ngIf="converType" class="text-white">Convirtiendo tipo de moneda...</h3>
+    <h3 *ngIf="!converType" class="text-white">Precio total de la ruta: {{
       (price != undefined ? price : '0') | currency:typeCurrency
     }}</h3>
   </div>
