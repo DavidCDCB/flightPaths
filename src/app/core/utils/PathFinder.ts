@@ -1,14 +1,18 @@
 import { Flight } from "../models/Flight";
 
 export class PathFinder {
-	public static allPaths: string[] = new Array<string>;
-	public static currentPath: string[] = new Array<string>;
-	public static visitados: string[] = new Array<string>;
+	public static allPaths: string[];
+	public static currentPath: string[];
+	public static visitados: string[];
 
 	static findBestPath(flights: Flight[],nameOrigin: string, nameDestination: string): Flight[] {
 		let completePath: string = "";
 		let origin = "";
 		let fixPath = [];
+
+		this.allPaths = new Array<string>;
+		this.currentPath = new Array<string>;
+		this.visitados = new Array<string>;
 		
 		this.visitados.push(nameOrigin);
 		this.findPaths(0, flights, nameOrigin, nameDestination);

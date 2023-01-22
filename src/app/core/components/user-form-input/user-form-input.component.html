@@ -14,6 +14,14 @@
 		</div>
 	</div>
 
+	<div *ngIf="checkSite(f['origen'].value)" class="alert alert-danger">
+		El origen no se encuentra disponible.
+	</div>
+
+	<div *ngIf="checkSite(f['destino'].value)" class="alert alert-danger">
+		El destino no se encuentra disponible.
+	</div>
+
 	<div *ngIf="checkInvalidInput(f['origen'])" class="alert alert-danger">
 		El origen debe tener tres letras.
 	</div>

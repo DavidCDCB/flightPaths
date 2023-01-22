@@ -18,6 +18,7 @@ export class UserFormInputComponent {
   public equals = false;
   public validInputs = false;
   public textOutput: string = "";
+  private sites?: (string | undefined)[] = new Array<string>;
 
   @Output() 
   public emitOutput = new EventEmitter<Journey>();
@@ -36,8 +37,8 @@ export class UserFormInputComponent {
     this.getFlights();
 
     this.registerForm = this.formBuilder.group({
-        origen: ['MZL', [Validators.required, Validators.pattern("[A-Z]{3}")]],
-        destino: ['MEX', [Validators.required, Validators.pattern("[A-Z]{3}")]],
+        origen: ['MEX', [Validators.required, Validators.pattern("[A-Z]{3}")]],
+        destino: ['BCN', [Validators.required, Validators.pattern("[A-Z]{3}")]],
     });
   }
 
@@ -46,8 +47,10 @@ export class UserFormInputComponent {
   getFlights(){
     this.flightsHTTPClient.getFlights().subscribe(
       (flights: FlightDTO[]) => {
+        console.log(flights);
         this.flights = this.modelFlightOfDTO(flights);
-        console.log(this.flights);
+        this.sites = [...this.flights.map((f) => f.arrivalStation),...this.flights.map((f) => f.departureStation)];
+        console.log(this.sites);
       }
     );
   }
@@ -92,6 +95,18 @@ export class UserFormInputComponent {
       price: "",
       flights: skyway
     }
+  }
+
+  checkSite(site: string): boolean{
+    if(site.length == 3){
+      if(this.sites?.includes(site)){
+        return false;
+      }else{
+        this.validInputs = false;
+        return true;
+      }
+    }
+    return false;
   }
 
   checkInputs(){
