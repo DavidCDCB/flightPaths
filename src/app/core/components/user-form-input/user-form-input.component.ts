@@ -7,6 +7,7 @@ import { PathFinder } from '../../utils/PathFinder';
 import { Flight } from '../../models/Flight';
 import { Transport } from '../../models/Transport';
 import { Journey } from '../../models/Journey';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -55,12 +56,12 @@ export class UserFormInputComponent {
             arrivalStation: x.arrivalStation,
             departureStation: x.departureStation,
             price: x.price,
-            transport: [
+            transport: 
               {
                 flightCarrier: x.flightCarrier,
                 flightNumber: x.flightNumber
               }
-            ]
+            
           }
         });
         console.log(this.flights);
@@ -68,12 +69,24 @@ export class UserFormInputComponent {
     );
   }
 
+  showPopUpError(){
+    Swal.fire({
+      icon: 'error',
+      title: 'Espera',
+      text: 'No se ha encontrado una ruta de vuelo disponible para estos lugares',
+    })
+  }
+
   createSkyway(){
     this.requestData = this.registerForm.value;
     //let skyway = PathFinder.findPath(0, this.flights, this.requestData.origen, this.requestData.destino);
     let skyway = PathFinder.findBestPath(this.flights, this.requestData.origen, this.requestData.destino);
     console.log(skyway);
-    this.emitOutput.emit(this.createJourney(skyway));
+    if(skyway.length){
+      this.emitOutput.emit(this.createJourney(skyway));
+    }else{
+      this.showPopUpError();
+    }
   }
 
   createJourney(skyway: Flight[]): Journey{

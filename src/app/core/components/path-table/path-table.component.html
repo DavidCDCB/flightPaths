@@ -1,0 +1,22 @@
+<div class="tabla">
+  <table class="table table-sm table-striped">
+    <thead class="table-dark header">
+      <tr>
+        <th scope="Origen">Origen</th>
+        <th scope="Destino">Destino</th>
+        <th scope="Precio">Precio</th>
+        <th scope="Numero de vuelo">Numero de vuelo</th>
+        <th scope="Carrier">Carrier</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flight of listOgFlights; let i = index">
+        <td>{{flight.departureStation}}</td>
+        <td>{{flight.arrivalStation}}</td>
+        <td>{{flight.price | currency:'USD'}}</td>
+        <td>{{flight.transport!.flightNumber}}</td>
+        <td>{{flight.transport!.flightCarrier}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

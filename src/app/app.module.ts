@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { UserFormInputComponent } from './core/components/user-form-input/user-form-input.component';
 import { PathTextOutputComponent } from "./core/components/path-text-output/path-text-output.component";
 import { PriceViewComponent } from './core/components/price-view/price-view.component';
+import { PathTableComponent } from './core/components/path-table/path-table.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         UserFormInputComponent,
         PathTextOutputComponent,
-        PriceViewComponent
+        PriceViewComponent,
+        PathTableComponent
     ],
     providers: [],
     bootstrap: [AppComponent],

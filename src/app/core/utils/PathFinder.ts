@@ -39,12 +39,14 @@ export class PathFinder {
 				completePath = p;
 			}
 		}
-
-		for(let f of completePath.split(",").reverse()){
-			console.log(f, origin);
-			if(origin === "" || f.split("->")[1] === origin){
-				origin = f.split("->")[0];
-				fixPath.push(f);
+		
+		if(completePath !== ""){
+			for(let f of completePath.split(",").reverse()){
+				console.log(f, origin);
+				if(origin === "" || f.split("->")[1] === origin){
+					origin = f.split("->")[0];
+					fixPath.push(f);
+				}
 			}
 		}
 

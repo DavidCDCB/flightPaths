@@ -10,10 +10,9 @@ import { Transport } from './core/models/Transport';
 })
 export class AppComponent {
   title = 'PruebaTecnica';
-  journey: Journey = new Journey();
-  textResult?: string;
-  totalPrice?: string;
-  flightPath: Flight[] | undefined = new Array<Flight>;
+  public journey: Journey = new Journey();
+  public textResult?: string;
+  public flightPath: Flight[] | undefined = new Array<Flight>;
 
   convertJourney(outputData: Journey): void{
     this.journey = outputData;
