@@ -7,10 +7,10 @@
   </div>
   <div class="col">
     <select class="form-select" (change)="convertCurrency()" [(ngModel)]="typeCurrency">
-      <option default>USD</option>
-      <option>COP</option>
-      <option>EUR</option>
-      <option>JPY</option>
+      <option [selected]="typeCurrency == 'USD'" default value="USD">Dolar</option>
+      <option value="COP">Peso Colombiano</option>
+      <option value="EUR">Euro</option>
+      <option value="JPY">Yen Japonés</option>
     </select>
   </div>
 </div>
