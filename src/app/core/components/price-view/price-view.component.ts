@@ -23,13 +23,11 @@ export class PriceViewComponent implements OnChanges {
 
   ngOnChanges(): void {
     console.log("CAMBIO");
-    if(this.firstChange === false){
-      this.typeCurrency = "USD";
-    }
-    this.firstChange = false;
+    this.typeCurrency = "USD";
+    this.oldTypeCurrency = "USD"
   }
 
-  checkPrice(){
+  checkPrice(): string | undefined{
     console.log(this.price);
     if(this.price !== undefined){
       this.convertCurrency();

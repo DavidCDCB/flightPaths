@@ -97,7 +97,7 @@ export class PathFinder {
 	 * @param {string} nameOrigin : Nombre del origen especificado
 	 * @param {Flight} flight : Vuelo determido al que se le verifica si el destino ya fue visitado
 	 */
-	static checkFlight(nameOrigin: string | undefined, flight: Flight ){
+	static checkFlight(nameOrigin: string | undefined, flight: Flight ): void{
 		if(!this.currentPath.includes(`${nameOrigin}->${flight.arrivalStation}`) && !this.visited.includes(flight.arrivalStation!)){
 			this.currentPath.push(`${nameOrigin}->${flight.arrivalStation}`);
 		}

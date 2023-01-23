@@ -13,11 +13,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./user-form-input.component.css']
 })
 export class UserFormInputComponent {
-  private flights: Flight[] = new Array<Flight>;
-  private sites?: (string | undefined)[] = new Array<string>;
   public registerForm!: FormGroup;
   public equals = false;
   public validInputs = false;
+  private flights: Flight[] = new Array<Flight>;
+  private sites?: (string | undefined)[] = new Array<string>;
 
   @Output() 
   public emitOutput = new EventEmitter<Journey>();
@@ -50,7 +50,7 @@ export class UserFormInputComponent {
    * Si la pretición a la API de realiza correctamente se obtienen todos los vuelos y tambien
    * el listado de todos los lugares disponibles.
    */
-  getFlights(){
+  getFlights(): void{
     this.flightsHTTPClient.getFlights().subscribe(
       (flights: FlightDTO[]) => {
         console.log(flights);
@@ -84,7 +84,7 @@ export class UserFormInputComponent {
   /**
    * Proceso que usa el algoritmo de busqueda recursiva para hallar la ruta de vuelo adecuada
    */
-  createSkyway(){
+  createSkyway(): void{
     this.requestData = this.registerForm.value;
     let skyway = PathFinder.findBestPath(this.flights, this.requestData.origen, this.requestData.destino);
     console.log(skyway);
@@ -117,18 +117,18 @@ export class UserFormInputComponent {
    * Verifica si los campos ingresado cumplen con los requisitos de validación del formulario
    * reactivo y por cada cmabio en ellos pasa de minusculas a mayusculas.
    */
-  checkInputs(){
+  checkInputs(): void{
     this.changeToUpperCase();
     this.equals = this.f['origen'].value === this.f['destino'].value;
     this.validInputs = !(this.equals || this.f['origen'].errors || this.f['destino'].errors );
   }
 
-  changeToUpperCase(){
+  changeToUpperCase(): void{
     this.f['origen'].setValue(this.f['origen'].value.toUpperCase());
     this.f['destino'].setValue(this.f['destino'].value.toUpperCase());
   }
 
-  checkInvalidInput(element: any){
+  checkInvalidInput(element: any): void{
     return (element.errors && !element.pristine);
   }
 

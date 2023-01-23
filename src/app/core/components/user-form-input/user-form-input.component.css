@@ -1,4 +1,7 @@
-
+.spinner-grow{
+	width: 3rem; 
+	height: 3rem;
+}
 
 .centrado{
 	display: flex;
