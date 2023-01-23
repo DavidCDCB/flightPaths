@@ -1,6 +1,6 @@
 # 🛫Rutas de vuelo🛬
 
-![](https://i.imgur.com/loeDS2W.png)
+![](https://i.imgur.com/loeDS2Wh.png)
 
 ### Descripción del proyecto
 Esta es una aplicación web desarrollada en Angular 15.1.2 la cual se encarga de mostrar las rutas de vuelo disponibles de acuerdo a información proveniente de la empresa NEWSHORE AIR según el lugar de origen y destino establecidos por el usuario.
