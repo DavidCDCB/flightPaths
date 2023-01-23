@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { CurrencyConverterService } from '../../services/CurrencyConverter.service';
 import { lastValueFrom } from 'rxjs';
 
@@ -7,10 +7,11 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './price-view.component.html',
   styleUrls: ['./price-view.component.css']
 })
-export class PriceViewComponent implements OnInit {
+export class PriceViewComponent implements OnChanges {
   public typeCurrency: string = "USD";
   public oldTypeCurrency: string = "USD";
   public converType: boolean = false;
+  public firstChange: boolean = true;
 
   constructor(private currencyConverter: CurrencyConverterService) { }
 
@@ -20,7 +21,12 @@ export class PriceViewComponent implements OnInit {
   @Output() 
   public emitPrice = new EventEmitter<string>();
 
-  ngOnInit() {
+  ngOnChanges(): void {
+    console.log("CAMBIO");
+    if(this.firstChange === false){
+      this.typeCurrency = "USD";
+    }
+    this.firstChange = false;
   }
 
   checkPrice(){
@@ -30,7 +36,6 @@ export class PriceViewComponent implements OnInit {
     }
     return this.price;
   }
-
 
   /**
    * Por medio de una petición sincronica a un servicio externo se realiza el cambio de moneda
